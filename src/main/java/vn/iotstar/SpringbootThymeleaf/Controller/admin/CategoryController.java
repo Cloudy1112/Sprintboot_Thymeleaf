@@ -34,7 +34,7 @@ public class CategoryController {
 	@Autowired
 	ICategoryService categoryService;
 	
-	@GetMapping("add")
+	@GetMapping("/add")
 	public String add(ModelMap model) {
 		CategoryModel categoryModel = new CategoryModel();
 		categoryModel.setIsEdit(false);
@@ -42,7 +42,7 @@ public class CategoryController {
 		return "admin/categories/addOredit";
 	}
 	
-	@PostMapping("saveOrupdate")
+	@PostMapping("/saveOrupdate")
 	public ModelAndView saveOrupdate (ModelMap model,
 			@Valid @ModelAttribute("category") CategoryModel cateModel, BindingResult result) {
 		if (result.hasErrors()) {
@@ -73,7 +73,7 @@ public class CategoryController {
 		return "admin/categories/list";
 	}
 	
-	@GetMapping("edit/{categoryId")
+	@GetMapping("edit/{categoryId}")
 	public ModelAndView edit(ModelMap model, @PathVariable("categoryId") Long categoryId) {
 		Optional<CategoryEntity> optCategory = categoryService.findById(categoryId);
 		CategoryModel cateModel = new CategoryModel();

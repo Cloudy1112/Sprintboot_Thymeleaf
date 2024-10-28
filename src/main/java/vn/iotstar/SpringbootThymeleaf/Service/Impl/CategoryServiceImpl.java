@@ -3,18 +3,19 @@ package vn.iotstar.SpringbootThymeleaf.Service.Impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.thymeleaf.util.StringUtils;
+import org.springframework.stereotype.Service;
 
-import ch.qos.logback.core.util.StringUtil;
 import vn.iotstar.SpringbootThymeleaf.Entity.CategoryEntity;
 import vn.iotstar.SpringbootThymeleaf.Repository.CategoryRepository;
 import vn.iotstar.SpringbootThymeleaf.Service.ICategoryService;
 
+@Service
 public class CategoryServiceImpl implements ICategoryService {
 	
 	@Autowired
@@ -41,9 +42,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
 	@Override
 	public <S extends CategoryEntity> S save(S entity) {
-		if (entity.getCategoryId() == null) {
-			return categoryRepository.save(entity);
-		} else {
+		if (entity != null) {
 			Optional<CategoryEntity> opt = findById(entity.getCategoryId());
 			if(opt.isPresent()) {
 				if (StringUtils.isEmpty(entity.getName())) {
@@ -52,6 +51,8 @@ public class CategoryServiceImpl implements ICategoryService {
 					entity.setName(entity.getName());
 				}
 			}
+		} else {
+			return categoryRepository.save(entity);
 		}
 		return categoryRepository.save(entity);
 	}
